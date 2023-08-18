@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Distância com Leaflet</title>
+    <!-- Folha de estilos do Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+    <div id="distance"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 2); // Inicializa o mapa
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        var point1 = L.latLng(-23.550520, -46.633308); // São Paulo, Brasil
+        var point2 = L.latLng(40.712776, -74.005974); // Nova York, EUA
+
+        var distance = point1.distanceTo(point2); // Calcula a distância em metros
+
+        L.marker(point1).addTo(map).bindPopup('São Paulo, Brasil');
+        L.marker(point2).addTo(map).bindPopup('Nova York, EUA');
+
+        L.polyline([point1, point2], { color: 'red' }).addTo(map);
+
+        var distanceText = (distance > 1000) ? (distance / 1000).toFixed(2) + ' km' : distance.toFixed(2) + ' metros';
+        document.getElementById('distance').textContent = 'A distância entre os pontos é: ' + distanceText;
+    </script>
+</body>
+</html>
