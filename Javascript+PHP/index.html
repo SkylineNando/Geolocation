@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geolocalização</title>
+</head>
+<body>
+    <input type="text" id="locationInput">
+    
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                document.getElementById("locationInput").value = "Geolocalização não é suportada por este navegador.";
+            }
+        }
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "get_city.php?&lat=" + latitude + "&long=" + longitude, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("locationInput").value = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        getLocation();
+    </script>
+</body>
+</html>
